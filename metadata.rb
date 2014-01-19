@@ -4,7 +4,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs Java runtime."
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "1.16.5"
+version           "1.18.1"
 
 recipe "java", "Installs Java runtime"
 recipe "java::openjdk", "Installs the OpenJDK flavor of Java"
@@ -31,5 +31,5 @@ recipe "java::oracle_rpm", "Installs the Oracle RPM flavor of Java"
   supports os
 end
 
-depends "windows"
-depends "aws"
+suggests "windows"
+suggests "aws"
