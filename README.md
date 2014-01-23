@@ -47,8 +47,6 @@ Attributes
 
 See `attributes/default.rb` for default values.
 
-* `node['java']['remove_deprecated_packages']` - Removes the now
-deprecated Ubuntu JDK packages from the system, default `false`
 * `node['java']['install_flavor']` - Flavor of JVM you would like
 installed (`oracle`, `openjdk`, `ibm`, `windows`), default `openjdk`
 on Linux/Unix platforms, `windows` on Windows platforms.
@@ -97,6 +95,20 @@ systems, the `install_flavor` is `windows`.
 OpenJDK is the default because of licensing changes made upstream by
 Oracle. See notes on the `oracle` recipe below.
 
+NOTE: In most cases, including just the default recipe will be sufficient.
+It's possible to include the install_type recipes directly, as long as
+the necessary attributes (such as java_home) are set.
+
+## set_attributes_from_version
+
+Sets default attributes based on the JDK version. This logic must be in
+a recipe instead of attributes/default.rb. See [#95](https://github.com/socrata-cookbooks/java/pull/95)
+for details.
+
+## purge_packages
+
+Purges deprecated Sun Java packages.
+
 ## openjdk
 
 This recipe installs the `openjdk` flavor of Java. It also uses the
@@ -143,6 +155,13 @@ the default Java.
 
 Because there is no easy way to pull the java msi off oracle's site,
 this recipe requires you to host it internally on your own http repo.
+
+**IMPORTANT NOTE**
+
+If you use the `windows` recipe, you'll need to make sure you've uploaded
+the `aws` and `windows` cookbooks. As of version 1.18.0, this cookbook
+references them with `suggests` instead of `depends`, as they are only
+used by the `windows` recipe.
 
 ## ibm
 
@@ -212,8 +231,8 @@ By default, the extracted directory is extracted to
 ## java_alternatives
 
 The `java_alternatives` LWRP uses `update-alternatives` command
-to set and unset command alternatives for various Java tools 
-such as java, javac, etc. 
+to set and unset command alternatives for various Java tools
+such as java, javac, etc.
 
 ### Actions
 
@@ -224,7 +243,7 @@ such as java, javac, etc.
 
 - `java_location`: Java installation location.
 - `bin_cmds`: array of Java tool names to set or unset alternatives on.
-- `default`: whether to set the Java tools as system default. Boolean, defaults to `true`. 
+- `default`: whether to set the Java tools as system default. Boolean, defaults to `true`.
 - `priority`: priority of the alternatives. Integer, defaults to `1061`.
 
 ### Examples
@@ -236,7 +255,7 @@ such as java, javac, etc.
         action :set
     end
 
-### 
+###
 Usage
 =====
 
