@@ -2,6 +2,11 @@ Java Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the Java cookbook.
 
+v2.0.0
+------
+- removed support for OS's other than ubunut, debian and centos/rhel
+- removed support for ibm version of java
+
 v1.18.0
 -------
 ### Improvement

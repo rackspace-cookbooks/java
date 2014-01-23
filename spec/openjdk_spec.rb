@@ -11,11 +11,6 @@ describe 'java::openjdk' do
       'packages' => ['java-1.6.0-openjdk', 'java-1.6.0-openjdk-devel'],
       'versions' => ['5.8', '6.3'],
       'update_alts' => true
-    },
-    'smartos' => {
-      'packages' => ['sun-jdk6', 'sun-jre6'],
-      'versions' => ['joyent_20130111T180733Z'],
-      'update_alts' => false
     }
   }
 
