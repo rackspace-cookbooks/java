@@ -42,11 +42,11 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets java_home' do
-      expect(subject.java_home).to eq(node['java']['java_home'])
+      expect(subject.java_home).to eq(node['rackspace_java']['java_home'])
     end
 
     it 'sets jdk_version' do
-      expect(subject.jdk_version).to eq(node['java']['jdk_version'])
+      expect(subject.jdk_version).to eq(node['rackspace_java']['jdk_version'])
     end
   end
 
@@ -75,7 +75,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-i386/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -95,7 +95,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -115,7 +115,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-i386/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -135,7 +135,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -155,7 +155,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -175,7 +175,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -195,7 +195,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -215,7 +215,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node['java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end

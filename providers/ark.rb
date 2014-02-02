@@ -63,7 +63,7 @@ def download_direct_from_oracle(tarball_name, new_resource)
   download_path = "#{Chef::Config[:file_cache_path]}/#{tarball_name}"
   jdk_id = new_resource.url.scan(/\/([6789]u[0-9][0-9]?-b[0-9][0-9])\//)[0][0]
   cookie = "oraclelicensejdk-#{jdk_id}-oth-JPR=accept-securebackup-cookie;gpw_e24=http://edelivery.oracle.com"
-  if node['java']['oracle']['accept_oracle_download_terms']
+  if node['rackspace_java']['oracle']['accept_oracle_download_terms']
     # install the curl package
     p = package "curl" do
       action :nothing
@@ -78,7 +78,7 @@ def download_direct_from_oracle(tarball_name, new_resource)
                                )
     end
   else
-    Chef::Application.fatal!("You must set the attribute node['java']['oracle']['accept_oracle_download_terms'] to true if you want to download directly from the oracle site!")
+    Chef::Application.fatal!("You must set the attribute node['rackspace_java']['oracle']['accept_oracle_download_terms'] to true if you want to download directly from the oracle site!")
   end
 end
 

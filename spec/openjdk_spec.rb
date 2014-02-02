@@ -65,25 +65,12 @@ describe 'java::openjdk' do
       end
     end
 
-    context 'smartos' do
-      let(:chef_run) do
-        ChefSpec::ChefRunner.new(:platform => 'smartos', :version => 'joyent_20130111T180733Z', :evaluate_guards => true)
-      end
-
-      context 'when auto_accept_license is true' do
-        it 'writes out a license acceptance file' do
-          chef_run.node.set['java']['accept_license_agreement'] = true
-          expect(chef_run.converge('java::openjdk')).to create_file("/opt/local/.dlj_license_accepted")
-        end
-      end
-
       context 'when auto_accept_license is false' do
         it 'does not write license file' do
-          chef_run.node.set['java']['accept_license_agreement'] = false
+          chef_run.node.set['rackspace_java']['accept_license_agreement'] = false
           expect(chef_run.converge('java::openjdk')).not_to create_file("/opt/local/.dlj_license_accepted")
         end
       end
-    end
 
   end
 end

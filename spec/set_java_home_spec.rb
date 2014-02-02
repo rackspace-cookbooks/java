@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'java::set_java_home' do
   let(:chef_run) do
     runner = ChefSpec::ChefRunner.new
-    runner.node.set['java']['java_home'] = '/opt/java'
+    runner.node.set['rackspace_java']['java_home'] = '/opt/java'
     runner.converge('java::set_java_home')
   end
   it 'it should set the java home environment variable' do

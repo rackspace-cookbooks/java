@@ -15,7 +15,7 @@ describe 'java::default' do
   context 'oracle' do
     let(:chef_run) do
       runner = ChefSpec::ChefRunner.new
-      runner.node.set['java']['install_flavor'] = 'oracle'
+      runner.node.set['rackspace_java']['install_flavor'] = 'oracle'
       runner.converge('java::default')
     end
 
@@ -27,7 +27,7 @@ describe 'java::default' do
   context 'oracle_i386' do
     let(:chef_run) do
       runner = ChefSpec::ChefRunner.new
-      runner.node.set['java']['install_flavor'] = 'oracle_i386'
+      runner.node.set['rackspace_java']['install_flavor'] = 'oracle_i386'
       runner.converge('java::default')
     end
 

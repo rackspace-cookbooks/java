@@ -26,8 +26,8 @@ module Opscode
 
     def initialize(node)
       @node = node.to_hash
-      @java_home = @node['java']['java_home'] || '/usr/lib/jvm/default-java'
-      @jdk_version = @node['java']['jdk_version'] || '6'
+      @java_home = @node['rackspace_java']['java_home'] || '/usr/lib/jvm/default-java'
+      @jdk_version = @node['rackspace_java']['jdk_version'] || '6'
     end
 
     def java_location
@@ -61,10 +61,8 @@ module Opscode
       case @node['platform_family']
       when 'debian'
         'java-%s-openjdk%s/jre' % [@jdk_version, arch_dir]
-      when 'rhel', 'fedora'
+      when 'rhel'
         'jre-1.%s.0-openjdk%s' % [@jdk_version, arch_dir]
-      when 'smartos'
-        'jre'
       else
         'jre'
       end
@@ -78,7 +76,7 @@ module Opscode
       case @node['platform_family']
       when 'debian'
         old_version? ? '' : '-amd64'
-      when 'rhel', 'fedora'
+      when 'rhel'
         '.x86_64'
       else
         '-x86_64'

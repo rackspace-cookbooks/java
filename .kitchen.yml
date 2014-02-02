@@ -10,7 +10,7 @@ platforms:
     box: opscode-ubuntu-12.04
     box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
   run_list:
-  - recipe[apt]
+  - recipe[rackspace_apt]
 - name: centos-6.4
   driver_config:
     box: opscode-centos-6.4
@@ -20,32 +20,35 @@ platforms:
     box: opscode-debian-7.2.0
     box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2.0_chef-provisionerless.box
   run_list:
-  - recipe[apt]
+  - recipe[rackspace_apt]
 
 suites:
-  - name: openjdk-6
-    run_list:
-      - recipe[java::default]
-  - name: openjdk-7
-    run_list:
-      - recipe[java::default]
-    attributes:
-      java:
-        jdk_version: "7"
-  - name: oracle-6
-    run_list:
-      - recipe[java::default]
-    attributes:
-      java:
-        oracle:
-          accept_oracle_download_terms: true
-        install_flavor: oracle
-  - name: oracle-7
-    run_list:
-      - recipe[java::default]
-    attributes:
-      java:
-        jdk_version: "7"
-        oracle:
-          accept_oracle_download_terms: true
-        install_flavor: oracle
+- name: openjdk-6
+  run_list:
+  - recipe[java::default]
+
+- name: openjdk-7
+  run_list:
+  - recipe[java::default]
+  attributes:
+    java:
+      jdk_version: "7"
+
+- name: oracle-6
+  run_list:
+  - recipe[java::default]
+  attributes:
+    java:
+      oracle:
+        accept_oracle_download_terms: true
+      install_flavor: oracle
+
+- name: oracle-7
+  run_list:
+  - recipe[java::default]
+  attributes:
+    java:
+      jdk_version: "7"
+      oracle:
+        accept_oracle_download_terms: true
+      install_flavor: oracle
