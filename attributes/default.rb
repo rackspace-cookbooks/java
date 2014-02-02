@@ -1,6 +1,6 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: java
+# Cookbook Name:: rackspace_java
 # Attributes:: default
 #
 # Copyright 2010, Opscode, Inc.
@@ -22,10 +22,9 @@
 default['rackspace_java']['install_flavor'] = "openjdk"
 
 # default jdk attributes
-default['rackspace_java']['jdk_version'] = '6'
+default['rackspace_java']['jdk_version'] = '7'
 default['rackspace_java']['arch'] = kernel['machine'] =~ /x86_64/ ? "x86_64" : "i586"
 default['rackspace_java']['openjdk_packages'] = []
-default['rackspace_java']['accept_license_agreement'] = false
 
 case node['rackspace_java']['install_flavor']
 when 'oracle_rpm'

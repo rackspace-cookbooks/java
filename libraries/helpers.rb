@@ -27,7 +27,7 @@ module Opscode
     def initialize(node)
       @node = node.to_hash
       @java_home = @node['rackspace_java']['java_home'] || '/usr/lib/jvm/default-java'
-      @jdk_version = @node['rackspace_java']['jdk_version'] || '6'
+      @jdk_version = @node['rackspace_java']['jdk_version'] || '7'
     end
 
     def java_location
@@ -36,7 +36,7 @@ module Opscode
 
     def alternatives_priority
       if @jdk_version == '6'
-        # 'accepted' default for java 6
+        # 'accepted' default for java 7
         1061
       elsif @jdk_version == '7'
         # i just made this number up
@@ -101,18 +101,6 @@ module Opscode
       when 'debian'
         Chef::VersionConstraint.new("< 7.0").include?(@node['platform_version'])
       end
-    end
-  end
-end
-
-class Chef
-  class Recipe
-    def valid_ibm_jdk_uri?(url)
-      url =~ ::URI::ABS_URI && %w[file http https].include?(::URI.parse(url).scheme)
-    end
-
-    def platform_requires_license_acceptance?
-      %w(smartos).include?(node.platform)
     end
   end
 end

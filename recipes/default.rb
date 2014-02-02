@@ -18,5 +18,5 @@
 # limitations under the License.
 #
 
-include_recipe "java::set_attributes_from_version"
-include_recipe "java::#{node['rackspace_java']['install_flavor']}"
+include_recipe "rackspace_java::set_attributes_from_version"
+include_recipe "rackspace_java::#{node['rackspace_java']['install_flavor']}"
