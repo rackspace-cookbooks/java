@@ -1,9 +1,10 @@
 #
 # Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
-# Cookbook Name:: java
-# Recipe:: oracle_i386
+# Cookbook Name:: racksapce_java
+# Recipe:: oracle_i586
 #
 # Copyright 2010-2011, Opscode, Inc.
+# Copyright 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,12 +42,12 @@ end
 
 include_recipe "java::set_java_home"
 
-yum_package "glibc" do
+package "glibc" do
   arch "i686"
-  only_if { platform_family?( "rhel", "fedora" ) }
+  only_if { platform_family?( "rhel" ) }
 end
 
-java_ark "jdk-alt" do
+rackspace_java_ark "jdk-alt" do
   url tarball_url
   checksum tarball_checksum
   app_home java_home

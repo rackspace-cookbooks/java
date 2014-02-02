@@ -28,7 +28,7 @@ default['rackspace_java']['openjdk_packages'] = []
 
 case node['rackspace_java']['install_flavor']
 when 'oracle_rpm'
-  default['rackspace_java']['oracle_rpm']['type'] = 'jdk'
+  default['rackspace_java']['oracle_rpm']['type'] = 'jdk' #'jdk' or 'jre"'
   default['rackspace_java']['java_home'] = "/usr/java/latest"
 end
 

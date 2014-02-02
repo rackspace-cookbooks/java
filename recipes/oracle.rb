@@ -1,9 +1,10 @@
 #
 # Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
-# Cookbook Name:: java
+# Cookbook Name:: rackspace_java
 # Recipe:: oracle
 #
 # Copyright 2011, Bryan w. Berry
+# Copyright 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,12 +29,12 @@ end
 
 java_home = node['rackspace_java']["java_home"]
 arch = node['rackspace_java']['arch']
-jdk_version = node['rackspace_java']['jdk_version']
+jdk_version = node['rackspace_java']['jdk_version'].to_s
 
 #convert version number to a string if it isn't already
-if jdk_version.instance_of? Fixnum
-  jdk_version = jdk_version.to_s
-end
+#if jdk_version.instance_of? Fixnum
+#  jdk_version = jdk_version.to_s
+#end
 
 case jdk_version
 when "6"
@@ -52,7 +53,7 @@ end
 
 include_recipe "java::set_java_home"
 
-java_ark "jdk" do
+rackspace_java_ark "jdk" do
   url tarball_url
   checksum tarball_checksum
   app_home java_home

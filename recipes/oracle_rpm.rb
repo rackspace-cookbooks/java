@@ -1,9 +1,10 @@
 # Author:: Christophe Arguel (<christophe.arguel@free.fr>)
 #
-# Cookbook Name:: java
+# Cookbook Name:: rackspace_java
 # Recipe:: oracle_rpm
 #
 # Copyright 2013, Christophe Arguel <christophe.arguel@free.fr>
+# Copyright 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ slave_cmds = case node['rackspace_java']['oracle_rpm']['type']
                Chef::Application.fatal "Unsupported oracle RPM type (#{node['rackspace_java']['oracle_rpm']['type']})"
              end
 
-if platform_family?('rhel', 'fedora')
+if platform_family?('rhel')
 
   bash 'update-java-alternatives' do
     java_home = node['rackspace_java']['java_home']
@@ -52,5 +53,5 @@ end
 
 package node['rackspace_java']['oracle_rpm']['type']  do
   action :upgrade
-  notifies :run, 'bash[update-java-alternatives]', :immediately if platform_family?('rhel', 'fedora')
+  notifies :run, 'bash[update-java-alternatives]', :immediately if platform_family?('rhel')
 end

@@ -37,7 +37,7 @@ node['rackspace_java']['openjdk_packages'].each do |pkg|
   package pkg
 end
 
-if platform_family?('debian', 'rhel', 'fedora')
+if platform_family?('debian', 'rhel')
   rackspace_java_alternatives 'set-java-alternatives' do
     java_location jdk.java_home
     priority jdk.alternatives_priority
