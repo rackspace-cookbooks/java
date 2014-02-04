@@ -1,4 +1,3 @@
-#
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Copyright:: Copyright (c) 2013, Opscode, Inc. <legal@opscode.com>
 #
@@ -13,15 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 require 'chef/version_constraint'
 require 'uri'
 require 'pathname'
 
 module Opscode
-  class OpenJDK
-
+  class OpenJDK # rubocop: disable Documentation
     attr_accessor :java_home, :jdk_version
 
     def initialize(node)
@@ -60,9 +57,9 @@ module Opscode
     def openjdk_path
       case @node['platform_family']
       when 'debian'
-        'java-%s-openjdk%s/jre' % [@jdk_version, arch_dir]
+        sprintf('java-%s-openjdk%s/jre', @jdk_version, arch_dir)
       when 'rhel'
-        'jre-1.%s.0-openjdk%s' % [@jdk_version, arch_dir]
+        sprintf('jre-1.%s.0-openjdk%s' , @jdk_version, arch_dir)
       else
         'jre'
       end
@@ -97,9 +94,9 @@ module Opscode
     def old_version?
       case @node['platform']
       when 'ubuntu'
-        Chef::VersionConstraint.new("< 11.0").include?(@node['platform_version'])
+        Chef::VersionConstraint.new('< 11.0').include?(@node['platform_version'])
       when 'debian'
-        Chef::VersionConstraint.new("< 7.0").include?(@node['platform_version'])
+        Chef::VersionConstraint.new('< 7.0').include?(@node['platform_version'])
       end
     end
   end

@@ -11,6 +11,6 @@ describe 'java::oracle_i386' do
   end
 
   it 'should configure a java_ark[jdk] resource' do
-    pending "Testing LWRP use is not required at this time, this is tested post-converge."
+    pending 'Testing LWRP use is not required at this time, this is tested post-converge.'
   end
 end

@@ -20,10 +20,12 @@
 
 include_recipe 'java::set_java_home'
 
-
 slave_cmds = case node['rackspace_java']['oracle_rpm']['type']
              when 'jdk'
-               %W[appletviewer apt ControlPanel extcheck idlj jar jarsigner javac javadoc javafxpackager javah javap java-rmi.cgi javaws jcmd jconsole jcontrol jdb jhat jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd jvisualvm keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry schemagen serialver servertool tnameserv unpack200 wsgen wsimport xjc]
+               %W[appletviewer apt ControlPanel extcheck idlj jar jarsigner javac javadoc javafxpackager javah javap
+                  java-rmi.cgi javaws jcmd jconsole jcontrol jdb jhat jinfo jmap jps jrunscript jsadebugd jstack jstat
+                  jstatd jvisualvm keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry schemagen serialver servertool
+                  tnameserv unpack200 wsgen wsimport xjc]
 
              when 'jre'
                %W[ControlPanel java_vm javaws jcontrol keytool orbd pack200 policytool rmid rmiregistry servertool tnameserv unpack200]
@@ -36,8 +38,8 @@ if platform_family?('rhel')
 
   bash 'update-java-alternatives' do
     java_home = node['rackspace_java']['java_home']
-    java_location = File.join(java_home, "bin", "java")
-    slave_lines = slave_cmds.inject("") do |slaves, cmd|
+    java_location = File.join(java_home, 'bin', 'java')
+    slave_lines = slave_cmds.inject('') do |slaves, cmd|
       slaves << "--slave /usr/bin/#{cmd} #{cmd} #{File.join(java_home, "bin", cmd)} \\\n"
     end
 

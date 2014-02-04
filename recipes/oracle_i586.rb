@@ -19,35 +19,35 @@
 # limitations under the License.
 
 unless node.recipe?('java::default')
-  Chef::Log.warn("Using java::default instead is recommended.")
+  Chef::Log.warn('Using java::default instead is recommended.')
 
 # Even if this recipe is included by itself, a safety check is nice...
-  if node['rackspace_java']['java_home'].nil? or node['rackspace_java']['java_home'].empty?
-    include_recipe "java::set_attributes_from_version"
+  if node['rackspace_java']['java_home'].nil? || node['rackspace_java']['java_home'].empty?
+    include_recipe 'java::set_attributes_from_version'
   end
 end
 
-java_home = node['rackspace_java']["java_home"]
+java_home = node['rackspace_java']['java_home']
 
 case node['rackspace_java']['jdk_version']
-when "6"
+when '6'
   tarball_url = node['rackspace_java']['jdk']['6']['i586']['url']
   tarball_checksum = node['rackspace_java']['jdk']['6']['i586']['checksum']
   bin_cmds = node['rackspace_java']['jdk']['6']['bin_cmds']
-when "7"
+when '7'
   tarball_url = node['rackspace_java']['jdk']['7']['i586']['url']
   tarball_checksum = node['rackspace_java']['jdk']['7']['i586']['checksum']
   bin_cmds = node['rackspace_java']['jdk']['7']['bin_cmds']
 end
 
-include_recipe "java::set_java_home"
+include_recipe 'java::set_java_home'
 
-package "glibc" do
-  arch "i686"
-  only_if { platform_family?( "rhel" ) }
+package 'glibc' do
+  arch 'i686'
+  only_if { platform_family?('rhel') }
 end
 
-rackspace_java_ark "jdk-alt" do
+rackspace_java_ark 'jdk-alt' do
   url tarball_url
   checksum tarball_checksum
   app_home java_home

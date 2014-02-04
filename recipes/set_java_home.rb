@@ -17,18 +17,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ruby_block  "set-env-java-home" do
+ruby_block  'set-env-java-home' do
   block do
-    ENV["JAVA_HOME"] = node['rackspace_java']['java_home']
+    ENV['JAVA_HOME'] = node['rackspace_java']['java_home']
   end
-  not_if { ENV["JAVA_HOME"] == node['rackspace_java']['java_home'] }
+  not_if { ENV['JAVA_HOME'] == node['rackspace_java']['java_home'] }
 end
 
-directory "/etc/profile.d" do
+directory '/etc/profile.d' do
   mode 00755
 end
 
-file "/etc/profile.d/jdk.sh" do
+file '/etc/profile.d/jdk.sh' do
   content "export JAVA_HOME=#{node['rackspace_java']['java_home']}"
   mode 00755
 end

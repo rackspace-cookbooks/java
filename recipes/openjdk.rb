@@ -21,12 +21,12 @@
 # limitations under the License.
 
 unless node.recipe?('rackspace_java::default')
-  Chef::Log.warn("Using rackspace_java::default instead is recommended.")
+  Chef::Log.warn('Using rackspace_java::default instead is recommended.')
 
   # Even if this recipe is included by itself, a safety check is nice...
-  [ node['rackspace_java']['openjdk_packages'], node['rackspace_java']['java_home'] ].each do |v|
-    if v.nil? or v.empty?
-      include_recipe "rackspace_java::set_attributes_from_version"
+  [node['rackspace_java']['openjdk_packages'], node['rackspace_java']['java_home']].each do |v|
+    if v.nil? || v.empty?
+      include_recipe 'rackspace_java::set_attributes_from_version'
     end
   end
 end
@@ -42,9 +42,9 @@ if platform_family?('debian', 'rhel')
     java_location jdk.java_home
     priority jdk.alternatives_priority
     case node['rackspace_java']['jdk_version']
-    when "6"
+    when '6'
       bin_cmds node['rackspace_java']['jdk']['6']['bin_cmds']
-    when "7"
+    when '7'
       bin_cmds node['rackspace_java']['jdk']['7']['bin_cmds']
     end
     action :set
