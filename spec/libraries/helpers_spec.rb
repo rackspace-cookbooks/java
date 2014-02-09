@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-$:.unshift(File.join(File.dirname(__FILE__), '..'))
+$:.unshift(File.join(File.dirname(__FILE__), '..')) # rubocop: disable SpecialGlobalVars
 require 'spec_helper'
 
 describe Opscode::OpenJDK do

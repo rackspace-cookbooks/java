@@ -24,7 +24,7 @@ action :set do
     new_resource.bin_cmds.each do |cmd|
 
       bin_path = '/usr/bin/#{cmd}' # rubocop: disable UselessAssignment
-      alt_path = '#{new_resource.java_location}/bin/#{cmd}' 
+      alt_path = '#{new_resource.java_location}/bin/#{cmd}'
       priority = new_resource.priority # rubocop: disable UselessAssignment
 
       unless ::File.exist?(alt_path)

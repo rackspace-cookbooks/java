@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.dirname(__FILE__), '..', 'libraries'))
+$:.unshift(File.join(File.dirname(__FILE__), '..', 'libraries')) # rubocop: disable SpecialGlobalVars
 require 'helpers'
 require 'chefspec'
 

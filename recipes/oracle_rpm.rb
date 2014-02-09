@@ -39,7 +39,7 @@ if platform_family?('rhel')
   bash 'update-java-alternatives' do
     java_home = node['rackspace_java']['java_home']
     java_location = File.join(java_home, 'bin', 'java')
-    slave_lines = slave_cmds.inject('') do |slaves, cmd|
+    slave_lines = slave_cmds.inject('') do |slaves, cmd| # rubocop: disable CollectionMethods
       slaves << "--slave /usr/bin/#{cmd} #{cmd} #{File.join(java_home, "bin", cmd)} \\\n"
     end
 

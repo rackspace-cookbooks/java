@@ -88,12 +88,20 @@ action :install do
   app_root = new_resource.app_home.split('/')[0..-2].join('/')
   app_dir = app_root + '/' + app_dir_name
 
-  unless new_resource.default
+  # unless new_resource.default
+  #   Chef::Log.debug('processing alternate jdk')
+  #   app_dir = app_dir  + '_alt'
+  #   app_home = new_resource.app_home + '_alt'
+  # else
+  #   app_home = new_resource.app_home
+  # end
+
+  if new_resource.default
+    app_home = new_resource.app_home
+  else
     Chef::Log.debug('processing alternate jdk')
     app_dir = app_dir  + '_alt'
     app_home = new_resource.app_home + '_alt'
-  else
-    app_home = new_resource.app_home
   end
 
   unless ::File.exists?(app_dir)
@@ -219,12 +227,20 @@ action :remove do
   app_root = new_resource.app_home.split('/')[0..-2].join('/')
   app_dir = app_root + '/' + app_dir_name
 
-  unless new_resource.default
+  # unless new_resource.default
+  #   Chef::Log.debug('processing alternate jdk')
+  #   app_dir = app_dir + '_alt'
+  #   app_home = new_resource.app_home + '_alt'
+  # else
+  #   app_home = new_resource.app_home
+  # end
+
+  if new_resource.default
+    app_home = new_resource.app_home
+  else
     Chef::Log.debug('processing alternate jdk')
     app_dir = app_dir + '_alt'
     app_home = new_resource.app_home + '_alt'
-  else
-    app_home = new_resource.app_home
   end
 
   if ::File.exists?(app_dir)
