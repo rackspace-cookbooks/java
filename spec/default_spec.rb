@@ -1,38 +1,51 @@
 require 'spec_helper'
 
-describe 'java::default' do
-  let(:chef_run) do
-    runner = ChefSpec::ChefRunner.new(
-      platform: 'debian',
-      version: '7.0'
-    )
-    runner.converge('java::default')
-  end
-  it 'should include the openjdk recipe by default' do
-    expect(chef_run).to include_recipe('java::openjdk')
+describe 'rackspace_java::default recipe' do
+
+  context 'openjdk - default' do
+    let(:chef_run) do
+      ChefSpec::Runner.new do |node|
+      end.converge('rackspace_java::default')
+    end
+
+    it 'should include the openjdk recipe by default' do
+      expect(chef_run).to include_recipe('rackspace_java::openjdk')
+    end
   end
 
   context 'oracle' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
-      runner.node.set['rackspace_java']['install_flavor'] = 'oracle'
-      runner.converge('java::default')
+      ChefSpec::Runner.new do |node|
+        node.set['rackspace_java']['install_flavor'] = 'oracle'
+      end.converge('rackspace_java::default')
     end
 
     it 'should include the oracle recipe' do
-      expect(chef_run).to include_recipe('java::oracle')
+      expect(chef_run).to include_recipe('rackspace_java::oracle')
     end
   end
 
-  context 'oracle_i386' do
+  context 'oracle_i586' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
-      runner.node.set['rackspace_java']['install_flavor'] = 'oracle_i386'
-      runner.converge('java::default')
+      ChefSpec::Runner.new do |node|
+        node.set['rackspace_java']['install_flavor'] = 'oracle_i586'
+      end.converge('rackspace_java::default')
     end
 
-    it 'should include the oracle_i386 recipe' do
-      expect(chef_run).to include_recipe('java::oracle_i386')
+    it 'should include the oracle_i586 recipe' do
+      expect(chef_run).to include_recipe('rackspace_java::oracle_i586')
+    end
+  end
+
+  context 'oracle_rpm' do
+    let(:chef_run) do
+      ChefSpec::Runner.new do |node|
+        node.set['rackspace_java']['install_flavor'] = 'oracle_rpm'
+      end.converge('rackspace_java::default')
+    end
+
+    it 'should include the oracle_i586 recipe' do
+      expect(chef_run).to include_recipe('rackspace_java::oracle_rpm')
     end
   end
 

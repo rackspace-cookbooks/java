@@ -25,29 +25,29 @@ platforms:
 suites:
 - name: openjdk-6
   run_list:
-  - recipe[java::default]
+  - recipe[rackspace_java::default]
 
 - name: openjdk-7
   run_list:
-  - recipe[java::default]
+  - recipe[rackspace_java::default]
   attributes:
-    java:
+    rackspace_java:
       jdk_version: "7"
 
 - name: oracle-6
   run_list:
-  - recipe[java::default]
+  - recipe[rackspace_java::default]
   attributes:
-    java:
+    rackspace_java:
       oracle:
         accept_oracle_download_terms: true
       install_flavor: oracle
 
 - name: oracle-7
   run_list:
-  - recipe[java::default]
+  - recipe[rackspace_java::default]
   attributes:
-    java:
+    rackspace_java:
       jdk_version: "7"
       oracle:
         accept_oracle_download_terms: true

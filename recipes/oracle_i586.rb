@@ -23,7 +23,7 @@ unless node.recipe?('java::default')
 
 # Even if this recipe is included by itself, a safety check is nice...
   if node['rackspace_java']['java_home'].nil? || node['rackspace_java']['java_home'].empty?
-    include_recipe 'java::set_attributes_from_version'
+    include_recipe 'rackspace_java::set_attributes_from_version'
   end
 end
 
@@ -40,9 +40,9 @@ when '7'
   bin_cmds = node['rackspace_java']['jdk']['7']['bin_cmds']
 end
 
-include_recipe 'java::set_java_home'
+include_recipe 'rackspace_java::set_java_home'
 
-package 'glibc' do
+yum_package 'glibc' do
   arch 'i686'
   only_if { platform_family?('rhel') }
 end

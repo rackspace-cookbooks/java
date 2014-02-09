@@ -21,7 +21,7 @@ require 'spec_helper'
 describe Opscode::OpenJDK do
   let(:node) do
     {
-      'java' => {
+      'racksapce_java' => {
         'java_home' => '/usr/lib/jvm/default-java',
         'jdk_version' => 6
       },

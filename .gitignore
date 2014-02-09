@@ -20,4 +20,4 @@ bin/
 tmp/
 vendor/
 .chef/
-.converage/
+.coverage/

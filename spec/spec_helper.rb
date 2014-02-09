@@ -1,6 +1,7 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'libraries')) # rubocop: disable SpecialGlobalVars
 require 'helpers'
 require 'chefspec'
+require 'chefspec/berkshelf'
 
 RSpec.configure do |config|
   config.color_enabled = true
@@ -13,3 +14,4 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+at_exit { ChefSpec::Coverage.report! }
