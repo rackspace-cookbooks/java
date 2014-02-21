@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe 'java::oracle' do
   let(:chef_run) do
-    runner = ChefSpec::ChefRunner.new
-    runner.converge('java::oracle')
+    runner = ChefSpec::Runner.new
+    runner.converge('rackspace_java::oracle')
   end
 
   it 'should include the set_java_home recipe' do
-    expect(chef_run).to include_recipe('java::set_java_home')
+    expect(chef_run).to include_recipe('rackspace_java::set_java_home')
   end
 
   it 'should configure a java_ark[jdk] resource' do

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'rackspace_java::oracle_i586' do
   let(:chef_run) do
-    runner = ChefSpec::ChefRunner.new
+    runner = ChefSpec::Runner.new
     runner.converge('rackspace_java::oracle_i586')
   end
 

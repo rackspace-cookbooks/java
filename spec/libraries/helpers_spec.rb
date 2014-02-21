@@ -21,9 +21,9 @@ require 'spec_helper'
 describe Opscode::OpenJDK do
   let(:node) do
     {
-      'racksapce_java' => {
+      'rackspace_java' => {
         'java_home' => '/usr/lib/jvm/default-java',
-        'jdk_version' => 6
+        'jdk_version' => '6'
       },
       'kernel' => {
         'machine' => 'x86_64'
@@ -37,7 +37,7 @@ describe Opscode::OpenJDK do
   let(:subject) { described_class.new(node) }
 
   describe '.initialize' do
-    it 'sets instance variable' do
+    it 'sets the instance variable' do
       expect(subject.instance_variable_get(:@node)).to be_a(Hash)
     end
 
@@ -63,10 +63,10 @@ describe Opscode::OpenJDK do
 
   context 'ubuntu 12.04 32 bit' do
     before do
-      node.default['platform'] = 'ubuntu'
-      node.default['platform_version'] = '12.04'
-      node.default['platform_family'] = 'debian'
-      node.default['kernel']['machine'] = 'i386'
+      node['platform'] = 'ubuntu'
+      node['platform_version'] = '12.04'
+      node['platform_family'] = 'debian'
+      node['kernel']['machine'] = 'i586'
     end
 
     it 'sets the java location for JDK 6' do
@@ -75,7 +75,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-i386/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -83,10 +83,10 @@ describe Opscode::OpenJDK do
 
   context 'ubuntu 12.04 64 bit' do
     before do
-      node.default['platform'] = 'ubuntu'
-      node.default['platform_version'] = '12.04'
-      node.default['platform_family'] = 'debian'
-      node.default['kernel']['machine'] = 'x86_64'
+      node['platform'] = 'ubuntu'
+      node['platform_version'] = '12.04'
+      node['platform_family'] = 'debian'
+      node['kernel']['machine'] = 'x86_64'
     end
 
     it 'sets the java location for JDK 6' do
@@ -95,7 +95,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -103,10 +103,10 @@ describe Opscode::OpenJDK do
 
   context 'debian 7 32 bit' do
     before do
-      node.default['platform'] = 'debian'
-      node.default['platform_version'] = '7.0.0'
-      node.default['platform_family'] = 'debian'
-      node.default['kernel']['machine'] = 'i386'
+      node['platform'] = 'debian'
+      node['platform_version'] = '7.0.0'
+      node['platform_family'] = 'debian'
+      node['kernel']['machine'] = 'i386'
     end
 
     it 'sets the java location for JDK 6' do
@@ -115,7 +115,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-i386/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -123,10 +123,10 @@ describe Opscode::OpenJDK do
 
   context 'debian 7 64 bit' do
     before do
-      node.default['platform'] = 'debian'
-      node.default['platform_version'] = '7.0.0'
-      node.default['platform_family'] = 'debian'
-      node.default['kernel']['machine'] = 'x86_64'
+      node['platform'] = 'debian'
+      node['platform_version'] = '7.0.0'
+      node['platform_family'] = 'debian'
+      node['kernel']['machine'] = 'x86_64'
     end
 
     it 'sets the java location for JDK 6' do
@@ -135,7 +135,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -143,10 +143,10 @@ describe Opscode::OpenJDK do
 
   context 'centos 5 32 bit' do
     before do
-      node.default['platform'] = 'centos'
-      node.default['platform_version'] = '5.9'
-      node.default['platform_family'] = 'rhel'
-      node.default['kernel']['machine'] = 'i386'
+      node['platform'] = 'centos'
+      node['platform_version'] = '5.9'
+      node['platform_family'] = 'rhel'
+      node['kernel']['machine'] = 'i386'
     end
 
     it 'sets the java location for JDK 6' do
@@ -155,7 +155,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -163,10 +163,10 @@ describe Opscode::OpenJDK do
 
   context 'centos 5 64 bit' do
     before do
-      node.default['platform'] = 'centos'
-      node.default['platform_version'] = '5.9'
-      node.default['platform_family'] = 'rhel'
-      node.default['kernel']['machine'] = 'x86_64'
+      node['platform'] = 'centos'
+      node['platform_version'] = '5.9'
+      node['platform_family'] = 'rhel'
+      node['kernel']['machine'] = 'x86_64'
     end
 
     it 'sets the java location for JDK 6' do
@@ -175,7 +175,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -183,10 +183,10 @@ describe Opscode::OpenJDK do
 
   context 'centos 6 32 bit' do
     before do
-      node.default['platform'] = 'centos'
-      node.default['platform_version'] = '6.4'
-      node.default['platform_family'] = 'rhel'
-      node.default['kernel']['machine'] = 'i386'
+      node['platform'] = 'centos'
+      node['platform_version'] = '6.4'
+      node['platform_family'] = 'rhel'
+      node['kernel']['machine'] = 'i386'
     end
 
     it 'sets the java location for JDK 6' do
@@ -195,7 +195,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end
@@ -203,10 +203,10 @@ describe Opscode::OpenJDK do
 
   context 'centos 6 64 bit' do
     before do
-      node.default['platform'] = 'centos'
-      node.default['platform_version'] = '6.4'
-      node.default['platform_family'] = 'rhel'
-      node.default['kernel']['machine'] = 'x86_64'
+      node['platform'] = 'centos'
+      node['platform_version'] = '6.4'
+      node['platform_family'] = 'rhel'
+      node['kernel']['machine'] = 'x86_64'
     end
 
     it 'sets the java location for JDK 6' do
@@ -215,7 +215,7 @@ describe Opscode::OpenJDK do
     end
 
     it 'sets the java location for JDK 7' do
-      node.default['rackspace_java']['jdk_version'] = '7'
+      node['rackspace_java']['jdk_version'] = '7'
       expected_path = '/usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java'
       expect(subject.java_location).to eq(expected_path)
     end

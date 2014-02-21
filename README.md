@@ -4,7 +4,9 @@ Description
 ===========
 
 This cookbook installs a Java JDK/JRE. It defaults to installing
-OpenJDK, but it can also install Oracle. Default JDK version is 7
+OpenJDK, but it can also install Oracle. Default JDK version is 6.
+
+This fork is based on the great work in the java community cookbook by [socrata]()
 
 **IMPORTANT NOTE**
 
