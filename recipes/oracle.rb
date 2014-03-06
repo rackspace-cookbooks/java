@@ -18,8 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-unless node.recipe?('java::default')
-  Chef::Log.warn('Using java::default instead is recommended.')
+unless node.recipe?('rackspace_java::default')
+  Chef::Log.warn('Using rackspace_java::default instead is recommended.')
 
 # Even if this recipe is included by itself, a safety check is nice...
   if node['rackspace_java']['java_home'].nil? || node['rackspace_java']['java_home'].empty?
