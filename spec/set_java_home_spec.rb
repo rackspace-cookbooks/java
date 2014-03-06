@@ -7,7 +7,7 @@ describe 'rackspace_java::set_java_home' do
     runner.converge('rackspace_java::set_java_home')
   end
   it 'it should set the java home environment variable' do
-    expect(chef_run).to execute_ruby_block('set-env-java-home')
+    expect(chef_run).to run_ruby_block('set-env-java-home')
   end
 
   it 'should create the profile.d directory' do
