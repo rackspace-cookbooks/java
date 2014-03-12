@@ -15,14 +15,14 @@ describe 'rackspace_java::oracle_i586' do
   end
 end
 
-  describe 'conditionally install package' do
-    let(:chef_run) do
-      ChefSpec::Runner.new do |node|
-        node.set['platform_family'] = 'rhel'
-      end.converge('rackspace_java::oracle_i586')
-    end
+describe 'conditionally install package' do
+  let(:chef_run) do
+    ChefSpec::Runner.new do |node|
+      node.set['platform_family'] = 'rhel'
+    end.converge('rackspace_java::oracle_i586')
+  end
 
-    it 'glibc' do
-      expect(chef_run).to install_yum_package('glibc')
-    end
+  it 'glibc' do
+    expect(chef_run).to install_yum_package('glibc')
+  end
 end

@@ -11,17 +11,17 @@ describe 'rackspace_java::oracle' do
   end
 
   it 'should configure a rackspace_java_ark[jdk] resource' do
-    pending "Testing LWRP use is not required at this time, this is tested post-converge."
+    pending 'Testing LWRP use is not required at this time, this is tested post-converge.'
   end
 
   describe 'conditionally includes set attributes' do
     context 'when java_home is set' do
       let(:chef_run) do
         runner = ChefSpec::Runner.new(
-          :platform => 'ubuntu',
-          :version => '12.04'
+          platform: 'ubuntu',
+          version: '12.04'
         )
-        runner.node.set['rackspace_java']['java_home'] = "/some/path"
+        runner.node.set['rackspace_java']['java_home'] = '/some/path'
         runner.converge(described_recipe)
       end
 
@@ -33,8 +33,8 @@ describe 'rackspace_java::oracle' do
     context 'when java_home is not set' do
       let(:chef_run) do
         runner = ChefSpec::Runner.new(
-          :platform => 'ubuntu',
-          :version => '12.04'
+          platform: 'ubuntu',
+          version: '12.04'
         )
         runner.converge(described_recipe)
       end
