@@ -1,9 +1,9 @@
 #
 # Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
-# Cookbook Name:: rackspace_java
-# Recipe:: oracle
+# Cookbook Name:: racksapce_java
+# Recipe:: oracle_i586
 #
-# Copyright 2011, Bryan w. Berry
+# Copyright 2010-2011, Opscode, Inc.
 # Copyright 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,36 +28,30 @@ unless node.recipe?('rackspace_java::default')
 end
 
 java_home = node['rackspace_java']['java_home']
-arch = node['rackspace_java']['arch']
-jdk_version = node['rackspace_java']['jdk_version'].to_s
 
-# convert version number to a string if it isn't already
-# if jdk_version.instance_of? Fixnum
-#  jdk_version = jdk_version.to_s
-# end
-
-case jdk_version
+case node['rackspace_java']['jdk_version']
 when '6'
-  tarball_url = node['rackspace_java']['jdk']['6'][arch]['url']
-  tarball_checksum = node['rackspace_java']['jdk']['6'][arch]['checksum']
+  tarball_url = node['rackspace_java']['jdk']['6']['i586']['url']
+  tarball_checksum = node['rackspace_java']['jdk']['6']['i586']['checksum']
   bin_cmds = node['rackspace_java']['jdk']['6']['bin_cmds']
 when '7'
-  tarball_url = node['rackspace_java']['jdk']['7'][arch]['url']
-  tarball_checksum = node['rackspace_java']['jdk']['7'][arch]['checksum']
+  tarball_url = node['rackspace_java']['jdk']['7']['i586']['url']
+  tarball_checksum = node['rackspace_java']['jdk']['7']['i586']['checksum']
   bin_cmds = node['rackspace_java']['jdk']['7']['bin_cmds']
-end
-
-if tarball_url =~ /example.com/
-  Chef::Application.fatal!('You must change the download link to your private repository. You can no longer download java directly from http://download.oracle.com without broswer')
 end
 
 include_recipe 'rackspace_java::set_java_home'
 
-rackspace_java_ark 'jdk' do
+yum_package 'glibc' do
+  arch 'i686'
+  only_if { platform_family?('rhel') }
+end
+
+rackspace_java_ark 'jdk-alt' do
   url tarball_url
   checksum tarball_checksum
   app_home java_home
   bin_cmds bin_cmds
-  alternatives_priority 1062
   action :install
+  default false
 end

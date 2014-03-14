@@ -1,9 +1,10 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: java
+# Cookbook Name:: rackspace_java
 # Recipe:: default
 #
 # Copyright 2008-2011, Opscode, Inc.
+# Copyright 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,5 +19,5 @@
 # limitations under the License.
 #
 
-include_recipe "java::set_attributes_from_version"
-include_recipe "java::#{node['java']['install_flavor']}"
+include_recipe 'rackspace_java::set_attributes_from_version'
+include_recipe "rackspace_java::#{node['rackspace_java']['install_flavor']}"

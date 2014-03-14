@@ -1,9 +1,10 @@
 # Author:: Christophe Arguel (<christophe.arguel@free.fr>)
 #
-# Cookbook Name:: java
+# Cookbook Name:: rackspace_java
 # Recipe:: oracle_rpm
 #
 # Copyright 2013, Christophe Arguel <christophe.arguel@free.fr>
+# Copyright 2014, Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,40 +18,57 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'java::set_java_home'
+include_recipe 'rackspace_java::set_java_home'
 
-
-slave_cmds = case node['java']['oracle_rpm']['type']
+slave_cmds = case node['rackspace_java']['oracle_rpm']['type']
              when 'jdk'
-               %W[appletviewer apt ControlPanel extcheck idlj jar jarsigner javac javadoc javafxpackager javah javap java-rmi.cgi javaws jcmd jconsole jcontrol jdb jhat jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd jvisualvm keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry schemagen serialver servertool tnameserv unpack200 wsgen wsimport xjc]
+               %W[appletviewer apt ControlPanel extcheck idlj jar jarsigner javac javadoc javafxpackager javah javap
+                  java-rmi.cgi javaws jcmd jconsole jcontrol jdb jhat jinfo jmap jps jrunscript jsadebugd jstack jstat
+                  jstatd jvisualvm keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry schemagen serialver servertool
+                  tnameserv unpack200 wsgen wsimport xjc]
 
              when 'jre'
                %W[ControlPanel java_vm javaws jcontrol keytool orbd pack200 policytool rmid rmiregistry servertool tnameserv unpack200]
 
              else
-               Chef::Application.fatal "Unsupported oracle RPM type (#{node['java']['oracle_rpm']['type']})"
+               Chef::Application.fatal "Unsupported oracle RPM type (#{node['rackspace_java']['oracle_rpm']['type']})"
              end
 
-if platform_family?('rhel', 'fedora')
+# if platform_family?('rhel')
+#
+#   bash 'update-java-alternatives' do
+#     java_home = node['rackspace_java']['java_home']
+#     java_location = File.join(java_home, 'bin', 'java')
+#     slave_lines = slave_cmds.inject('') do |slaves, cmd| # rubocop: disable CollectionMethods
+#       slaves << "--slave /usr/bin/#{cmd} #{cmd} #{File.join(java_home, "bin", cmd)} \\\n"
+#     end
+#
+#     code <<-EOH.gsub(/^\s+/, '')
+#       update-alternatives --install /usr/bin/java java #{java_location} 1061 \
+#       #{slave_lines} && \
+#       update-alternatives --set java #{java_location}
+#     EOH
+#     action :nothing
+#   end
+#
+# end
 
-  bash 'update-java-alternatives' do
-    java_home = node['java']['java_home']
-    java_location = File.join(java_home, "bin", "java")
-    slave_lines = slave_cmds.inject("") do |slaves, cmd|
-      slaves << "--slave /usr/bin/#{cmd} #{cmd} #{File.join(java_home, "bin", cmd)} \\\n"
-    end
-
-    code <<-EOH.gsub(/^\s+/, '')
-      update-alternatives --install /usr/bin/java java #{java_location} 1061 \
-      #{slave_lines} && \
-      update-alternatives --set java #{java_location}
-    EOH
-    action :nothing
+bash 'update-java-alternatives' do
+  java_home = node['rackspace_java']['java_home']
+  java_location = File.join(java_home, 'bin', 'java')
+  slave_lines = slave_cmds.inject('') do |slaves, cmd| # rubocop: disable CollectionMethods
+    slaves << "--slave /usr/bin/#{cmd} #{cmd} #{File.join(java_home, "bin", cmd)} \\\n"
   end
-
+  code <<-EOH.gsub(/^\s+/, '')
+    update-alternatives --install /usr/bin/java java #{java_location} 1061 \
+    #{slave_lines} && \
+    update-alternatives --set java #{java_location}
+  EOH
+  action :nothing
+  only_if { platform_family?('rhel') }
 end
 
-package node['java']['oracle_rpm']['type']  do
+package node['rackspace_java']['oracle_rpm']['type']  do
   action :upgrade
-  notifies :run, 'bash[update-java-alternatives]', :immediately if platform_family?('rhel', 'fedora')
+  notifies :run, 'bash[update-java-alternatives]', :immediately if platform_family?('rhel')
 end

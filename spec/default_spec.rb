@@ -1,80 +1,51 @@
 require 'spec_helper'
 
-describe 'java::default' do
-  let(:chef_run) do
-    runner = ChefSpec::ChefRunner.new(
-      :platform => 'debian',
-      :version => '7.0'
-    )
-    runner.converge('java::default')
-  end
-  it 'should include the openjdk recipe by default' do
-    expect(chef_run).to include_recipe('java::openjdk')
-  end
+describe 'rackspace_java::default recipe' do
 
-  context 'windows' do
+  context 'openjdk - default' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new(
-        'platform' => 'windows',
-        'version' => '2008R2'
-      )
-      runner.node.set['java']['install_flavor'] = 'windows'
-      runner.node.set['java']['windows']['url'] = 'http://example.com/windows-java.msi'
-      runner.converge('java::default')
+      ChefSpec::Runner.new do |node|
+      end.converge('rackspace_java::default')
     end
 
-    it 'should include the windows recipe' do
-      expect(chef_run).to include_recipe('java::windows')
+    it 'should include the openjdk recipe by default' do
+      expect(chef_run).to include_recipe('rackspace_java::openjdk')
     end
   end
 
   context 'oracle' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
-      runner.node.set['java']['install_flavor'] = 'oracle'
-      runner.converge('java::default')
+      ChefSpec::Runner.new do |node|
+        node.set['rackspace_java']['install_flavor'] = 'oracle'
+      end.converge('rackspace_java::default')
     end
 
     it 'should include the oracle recipe' do
-      expect(chef_run).to include_recipe('java::oracle')
+      expect(chef_run).to include_recipe('rackspace_java::oracle')
     end
   end
 
-  context 'oracle_i386' do
+  context 'oracle_i586' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
-      runner.node.set['java']['install_flavor'] = 'oracle_i386'
-      runner.converge('java::default')
+      ChefSpec::Runner.new do |node|
+        node.set['rackspace_java']['install_flavor'] = 'oracle_i586'
+      end.converge('rackspace_java::default')
     end
 
-    it 'should include the oracle_i386 recipe' do
-      expect(chef_run).to include_recipe('java::oracle_i386')
+    it 'should include the oracle_i586 recipe' do
+      expect(chef_run).to include_recipe('rackspace_java::oracle_i586')
     end
   end
 
-  context 'ibm' do
+  context 'oracle_rpm' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
-      runner.node.set['java']['install_flavor'] = 'ibm'
-      runner.node.set['java']['ibm']['url'] = 'http://example.com/ibm-java.bin'
-      runner.converge('java::default')
+      ChefSpec::Runner.new do |node|
+        node.set['rackspace_java']['install_flavor'] = 'oracle_rpm'
+      end.converge('rackspace_java::default')
     end
 
-    it 'should include the ibm recipe' do
-      expect(chef_run).to include_recipe('java::ibm')
-    end
-  end
-
-  context 'ibm_tar' do
-    let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
-      runner.node.set['java']['install_flavor'] = 'ibm_tar'
-      runner.node.set['java']['ibm']['url'] = 'http://example.com/ibm-java.tar.gz'
-      runner.converge('java::default')
-    end
-
-    it 'should include the ibm_tar recipe' do
-      expect(chef_run).to include_recipe('java::ibm_tar')
+    it 'should include the oracle_i586 recipe' do
+      expect(chef_run).to include_recipe('rackspace_java::oracle_rpm')
     end
   end
 

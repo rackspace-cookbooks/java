@@ -1,16 +1,20 @@
+#rackspace_java
+
 Description
 ===========
 
 This cookbook installs a Java JDK/JRE. It defaults to installing
-OpenJDK, but it can also install Oracle and IBM JDKs.
+OpenJDK, but it can also install Oracle. Default JDK version is 6.
+
+This fork is based on the great work in the java community cookbook by [socrata]()
 
 **IMPORTANT NOTE**
 
 As of 26 March 2012 you can no longer directly download the JDK from
 Oracle's website without using a special cookie. This cookbook uses
 that cookie to download the oracle recipe on your behalf, however the
-`java::oracle` recipe forces you to set either override the
-`node['java']['oracle']['accept_oracle_download_terms']` to true or
+`rackspace_java::oracle` recipe forces you to set either override the
+`node['rackspace_java']['oracle']['accept_oracle_download_terms']` to true or
 set up a private repository accessible by HTTP.
 
 ### Example
@@ -33,54 +37,24 @@ Chef 0.10.10+ and Ohai 6.10+ for `platform_family` use.
 ## Platform
 
 * Debian, Ubuntu
-* CentOS, Red Hat, Fedora, Scientific, Amazon, XenServer
-* ArchLinux
-* FreeBSD
-* SmartOS
-* Windows
-
-This cookbook includes cross-platform testing support via
-`test-kitchen`, see `TESTING.md`.
+* CentOS/Red Hat 6+
 
 Attributes
 ==========
 
 See `attributes/default.rb` for default values.
 
-* `node['java']['install_flavor']` - Flavor of JVM you would like
-installed (`oracle`, `openjdk`, `ibm`, `windows`), default `openjdk`
-on Linux/Unix platforms, `windows` on Windows platforms.
-* `node['java']['jdk_version']` - JDK version to install, defaults to
-  `'6'`.
-* `node['java']['java_home']` - Default location of the
+* `node['rackspace_java']['install_flavor']` - Flavor of JVM you would like
+installed (`oracle`, `openjdk`, `oracele_rpm` or `oracle_i586`), default `openjdk`.
+* `node['rackspace_java']['jdk_version']` - JDK version to install, defaults to
+  `'7'`.
+* `node['rackspace_java']['java_home']` - Default location of the
   "`$JAVA_HOME`".
-* `node['java']['openjdk_packages']` - Array of OpenJDK package names
+* `node['rackspace_java']['openjdk_packages']` - Array of OpenJDK package names
   to install in the `java::openjdk` recipe. This is set based on the
   platform.
-* `node['java']['tarball']` - Name of the tarball to retrieve from
-your internal repository, default `jdk1.6.0_29_i386.tar.gz`
-* `node['java']['tarball_checksum']` - Checksum for the tarball, if
-you use a different tarball, you also need to create a new sha256
-checksum
-* `node['java']['jdk']` - Version and architecture specific attributes
-for setting the URL on Oracle's site for the JDK, and the checksum of
-the .tar.gz.
-* `node['java']['oracle']['accept_oracle_download_terms']` - Indicates
-  that you accept Oracle's EULA
-* `node['java']['windows']['url']` - The internal location of your
-  java install for windows
-* `node['java']['windows']['package_name']` - The package name used by
-  windows_package to check in the registry to determine if the install
-  has already been run
-* `node['java']['windows']['checksum']` - The checksum for the package to
-  download on Windows machines (default is nil, which does not perform
-  checksum validation)
-* `node['java']['ibm']['url']` - The URL which to download the IBM
-  JDK/SDK. See the `ibm` recipe section below.
-* `node['java']['ibm']['accept_ibm_download_terms']` - Indicates that
-  you accept IBM's EULA (for `java::ibm`)
-* `node['java']['accept_license_agreement']` - Indicates that you accept
-  the EULA for openjdk package installation.
+* `node['rackspace_java']['jdk']` - Version and architecture specific attributes for setting the URL on Oracle's site for the JDK, and the checksum of the .tar.gz.
+* `node['rackspace_java']['oracle']['accept_oracle_download_terms']` - Indicates that you accept Oracle's EULA
 
 Recipes
 =======
@@ -89,8 +63,7 @@ Recipes
 
 Include the default recipe in a run list, to get `java`.  By default
 the `openjdk` flavor of Java is installed, but this can be changed by
-using the `install_flavor` attribute. By default on Windows platform
-systems, the `install_flavor` is `windows`.
+using the `install_flavor` attribute.
 
 OpenJDK is the default because of licensing changes made upstream by
 Oracle. See notes on the `oracle` recipe below.
@@ -102,8 +75,7 @@ the necessary attributes (such as java_home) are set.
 ## set_attributes_from_version
 
 Sets default attributes based on the JDK version. This logic must be in
-a recipe instead of attributes/default.rb. See [#95](https://github.com/socrata-cookbooks/java/pull/95)
-for details.
+a recipe instead of attributes/default.rb. See [#95](https://github.com/socrata-cookbooks/java/pull/95) for details.
 
 ## purge_packages
 
@@ -113,11 +85,6 @@ Purges deprecated Sun Java packages.
 
 This recipe installs the `openjdk` flavor of Java. It also uses the
 `alternatives` system on RHEL/Debian families to set the default Java.
-
-On platforms such as SmartOS that require the acceptance of a license
-agreement during package installation, set
-`node['java']['accept_license_agreement']` to true in order to indicate
-that you accept the license.
 
 ## oracle
 
@@ -151,37 +118,10 @@ repositories.
 It also uses the `alternatives` system on RHEL families to set
 the default Java.
 
-## windows
-
-Because there is no easy way to pull the java msi off oracle's site,
-this recipe requires you to host it internally on your own http repo.
-
-**IMPORTANT NOTE**
-
-If you use the `windows` recipe, you'll need to make sure you've uploaded
-the `aws` and `windows` cookbooks. As of version 1.18.0, this cookbook
-references them with `suggests` instead of `depends`, as they are only
-used by the `windows` recipe.
-
-## ibm
-
-The `java::ibm` recipe is used to install the IBM version of Java.
-Note that IBM requires you to create an account *and* log in to
-download the binary installer for your platform. You must accept the
-license agreement with IBM to use their version of Java. In this
-cookbook, you indicate this by setting
-`node['java']['ibm']['accept_ibm_download_terms']` to `true`. You must
-also host the binary on your own HTTP server to have an automated
-installation. The `node['java']['ibm']['url']` attribute must be set
-to a valid https/http URL; the URL is checked for validity in the recipe.
-
-At this time the `java::ibm` recipe does not support multiple SDK
-installations.
-
 Resources/Providers
 ===================
 
-## java_ark
+## `rackspace_java_ark`
 
 This cookbook contains the `java_ark` LWRP. Generally speaking this
 LWRP is deprecated in favor of `ark` from the
@@ -228,9 +168,9 @@ By default, the extracted directory is extracted to
         action :install
     end
 
-## java_alternatives
+## `rackspace_java_alternatives`
 
-The `java_alternatives` LWRP uses `update-alternatives` command
+The `rackspace_java_alternatives` LWRP uses `update-alternatives` command
 to set and unset command alternatives for various Java tools
 such as java, javac, etc.
 
@@ -249,7 +189,7 @@ such as java, javac, etc.
 ### Examples
 
     # set alternatives for java and javac commands
-    java_alternatives "set java alternatives" do
+    rackspace_java_alternatives "set java alternatives" do
         java_location '/usr/local/java`
         bin_cmds ["java", "javac"]
         action :set
@@ -261,7 +201,7 @@ Usage
 
 Simply include the `java` recipe where ever you would like Java installed.
 
-To install Oracle flavored Java override the `node['java']['install_flavor']` attribute with in role:
+To install Oracle flavored Java override the `node['rackspace_java']['install_flavor']` attribute with in role:
 
     name "java"
     description "Install Oracle Java on Ubuntu"
@@ -274,53 +214,13 @@ To install Oracle flavored Java override the `node['java']['install_flavor']` at
       "recipe[java]"
     )
 
-To install IBM flavored Java, set the required attributes:
+CONTRIBUTING
+============
+Please see CONTRIBUTING guidelines [here](https://github.com/rackspace-cookbooks/contributing/blob/master/CONTRIBUTING.md)
 
-    name "java"
-    description "Install IBM Java on Ubuntu"
-    default_attributes(
-      "java" => {
-        "install_flavor" => "ibm",
-        "ibm" => {
-          "accept_ibm_download_terms" => true,
-          "url" => "http://fileserver.example.com/ibm-java-x86_64-sdk-7.0-4.1.bin",
-          "checksum" => "The SHA256 checksum of the bin"
-        }
-      }
-    )
-    run_list(
-      "recipe[java]"
-    )
-
-
-Development
-===========
-
-This cookbook uses
-[test-kitchen](https://github.com/opscode/test-kitchen) for
-integration tests and
-[ChefSpec/RSpec](https://github.com/acrmp/chefspec) for unit tests.
-Pull requests should pass existing tests in
-`files/default/tests/minitest-handler`.
-
-At this time due to licensing concerns, the IBM recipe is not set up
-in test kitchen. If you would like to test this locally, copy
-.kitchen.yml to .kitchen.local.yml and add the following suite:
-
-    suites:
-    - name: ibm
-      run_list: ["recipe[java]"]
-      attributes:
-        java:
-          install_flavor: "ibm"
-          ibm:
-            accept_ibm_download_terms: true
-            url: "http://jenkins/ibm-java-x86_64-sdk-7.0-4.1.bin"
-            checksum: the-sha256-checksum
-
-Log into the IBM DeveloperWorks site to download a copy of the IBM
-Java SDK you wish to use/test, host it on an internal HTTP server, and
-calculate the SHA256 checksum to use in the suite.
+TESTING
+=======
+Please see TESTING guidelines [here](https://github.com/rackspace-cookbooks/contributing/blob/master/CONTRIBUTING.md)
 
 License and Author
 ==================
@@ -328,8 +228,10 @@ License and Author
 * Author: Seth Chisamore (<schisamo@opscode.com>)
 * Author: Bryan W. Berry (<bryan.berry@gmail.com>)
 * Author: Joshua Timberman (<joshua@opscode.com>)
+* Author: Ryan Richard (<ryan.richard@rackspace.com>)
 
 Copyright: 2008-2013, Opscode, Inc
+Copyright: 2014, Rackspace, US Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

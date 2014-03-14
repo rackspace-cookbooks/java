@@ -1,4 +1,3 @@
-#
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Copyright:: Copyright (c) 2013, Opscode, Inc. <legal@opscode.com>
 #
@@ -13,21 +12,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 require 'chef/version_constraint'
 require 'uri'
 require 'pathname'
 
 module Opscode
-  class OpenJDK
-
+  class OpenJDK # rubocop: disable Documentation
     attr_accessor :java_home, :jdk_version
 
     def initialize(node)
       @node = node.to_hash
-      @java_home = @node['java']['java_home'] || '/usr/lib/jvm/default-java'
-      @jdk_version = @node['java']['jdk_version'] || '6'
+      @java_home = @node['rackspace_java']['java_home'] || '/usr/lib/jvm/default-java'
+      @jdk_version = @node['rackspace_java']['jdk_version'] || '7'
     end
 
     def java_location
@@ -36,7 +33,7 @@ module Opscode
 
     def alternatives_priority
       if @jdk_version == '6'
-        # 'accepted' default for java 6
+        # 'accepted' default for java 7
         1061
       elsif @jdk_version == '7'
         # i just made this number up
@@ -60,11 +57,9 @@ module Opscode
     def openjdk_path
       case @node['platform_family']
       when 'debian'
-        'java-%s-openjdk%s/jre' % [@jdk_version, arch_dir]
-      when 'rhel', 'fedora'
-        'jre-1.%s.0-openjdk%s' % [@jdk_version, arch_dir]
-      when 'smartos'
-        'jre'
+        sprintf('java-%s-openjdk%s/jre', @jdk_version, arch_dir)
+      when 'rhel'
+        sprintf('jre-1.%s.0-openjdk%s' , @jdk_version, arch_dir)
       else
         'jre'
       end
@@ -78,7 +73,7 @@ module Opscode
       case @node['platform_family']
       when 'debian'
         old_version? ? '' : '-amd64'
-      when 'rhel', 'fedora'
+      when 'rhel'
         '.x86_64'
       else
         '-x86_64'
@@ -99,22 +94,10 @@ module Opscode
     def old_version?
       case @node['platform']
       when 'ubuntu'
-        Chef::VersionConstraint.new("< 11.0").include?(@node['platform_version'])
+        Chef::VersionConstraint.new('< 11.0').include?(@node['platform_version'])
       when 'debian'
-        Chef::VersionConstraint.new("< 7.0").include?(@node['platform_version'])
+        Chef::VersionConstraint.new('< 7.0').include?(@node['platform_version'])
       end
-    end
-  end
-end
-
-class Chef
-  class Recipe
-    def valid_ibm_jdk_uri?(url)
-      url =~ ::URI::ABS_URI && %w[file http https].include?(::URI.parse(url).scheme)
-    end
-
-    def platform_requires_license_acceptance?
-      %w(smartos).include?(node.platform)
     end
   end
 end
