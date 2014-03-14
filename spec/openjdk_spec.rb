@@ -3,15 +3,15 @@ require 'spec_helper'
 describe 'rackspace_java::openjdk' do
   platforms = {
     'ubuntu-12.04' => {
-      'packages' => %w['openjdk-6-jdk', 'openjdk-6-jre-headless'],
+      'packages' => %w[openjdk-6-jdk openjdk-6-jre-headless],
       'update_alts' => true
     },
     'debian-7.0' => {
-      'packages' => %w['openjdk-6-jdk', 'openjdk-6-jre-headless'],
+      'packages' => %w[openjdk-6-jdk openjdk-6-jre-headless],
       'update_alts' => true
     },
     'centos-6.4' => {
-      'packages' => %w['java-1.6.0-openjdk', 'java-1.6.0-openjdk-devel'],
+      'packages' => %w[java-1.6.0-openjdk java-1.6.0-openjdk-devel],
       'update_alts' => true
     }
   }

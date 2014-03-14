@@ -24,7 +24,7 @@ default['rackspace_java']['install_flavor'] = 'openjdk'
 # default jdk attributes
 default['rackspace_java']['jdk_version'] = '6'
 default['rackspace_java']['arch'] = kernel['machine'] =~ /x86_64/ ? 'x86_64' : 'i586'
-default['rackspace_java']['openjdk_packages'] = []
+default['rackspace_java']['openjdk_packages'] = %w['openjdk-6-jdk' 'openjdk-6-jre-headless' ]
 
 case node['rackspace_java']['install_flavor']
 when 'oracle_rpm'
