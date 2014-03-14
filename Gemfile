@@ -8,7 +8,7 @@ group :testing do
   gem 'thor',       '~> 0.18.0'
   gem 'chef',       '~> 11.8.0'
   gem 'rspec',      '~> 2.14.0'
-  gem 'rubocop',    '~> 0.16.0' 
+  gem 'rubocop',    '~> 0.18.0' 
   gem 'rake',       '~> 10.1.0'
 end
 
