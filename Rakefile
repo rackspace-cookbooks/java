@@ -30,7 +30,7 @@ namespace :style do
   require 'foodcritic'
   desc 'Run Chef style checks'
   FoodCritic::Rake::LintTask.new(:chef) { |task| 
-    task.options = { tags: ['~FC005', '~FC011', '~FC031', '~FC045'] }
+    task.options = { tags: ['~FC005', '~FC011', '~FC031', '~FC045', '~FC047'] }
   }
 end
 
