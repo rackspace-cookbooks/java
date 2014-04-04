@@ -29,14 +29,8 @@ end
 
 java_home = node['rackspace_java']['java_home']
 arch = node['rackspace_java']['arch']
-jdk_version = node['rackspace_java']['jdk_version'].to_s
 
-# convert version number to a string if it isn't already
-# if jdk_version.instance_of? Fixnum
-#  jdk_version = jdk_version.to_s
-# end
-
-case jdk_version
+case node['rackspace_java']['jdk_version'].to_s
 when '6'
   tarball_url = node['rackspace_java']['jdk']['6'][arch]['url']
   tarball_checksum = node['rackspace_java']['jdk']['6'][arch]['checksum']
@@ -55,9 +49,14 @@ include_recipe 'rackspace_java::set_java_home'
 
 rackspace_java_ark 'jdk' do
   url tarball_url
+  default node['rackspace_java']['set_default']
   checksum tarball_checksum
   app_home java_home
   bin_cmds bin_cmds
   alternatives_priority 1062
   action :install
+end
+
+if node['rackspace_java']['set_default'] && platform_family?('debian')
+  include_recipe 'rackspace_java::default_java_symlink'
 end

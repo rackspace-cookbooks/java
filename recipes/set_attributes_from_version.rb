@@ -24,6 +24,8 @@ when 'rhel'
   case node['rackspace_java']['install_flavor']
   when 'oracle'
     node.default['rackspace_java']['java_home'] = '/usr/lib/jvm/java'
+  when 'oracle_rpm'
+    node.default['java']['java_home'] = '/usr/java/latest'
   else
     node.default['rackspace_java']['java_home'] = "/usr/lib/jvm/java-1.#{node['rackspace_java']['jdk_version']}.0"
   end

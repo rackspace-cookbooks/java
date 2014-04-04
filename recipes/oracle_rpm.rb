@@ -34,25 +34,6 @@ slave_cmds = case node['rackspace_java']['oracle_rpm']['type']
                Chef::Application.fatal "Unsupported oracle RPM type (#{node['rackspace_java']['oracle_rpm']['type']})"
              end
 
-# if platform_family?('rhel')
-#
-#   bash 'update-java-alternatives' do
-#     java_home = node['rackspace_java']['java_home']
-#     java_location = File.join(java_home, 'bin', 'java')
-#     slave_lines = slave_cmds.inject('') do |slaves, cmd| # rubocop: disable CollectionMethods
-#       slaves << "--slave /usr/bin/#{cmd} #{cmd} #{File.join(java_home, "bin", cmd)} \\\n"
-#     end
-#
-#     code <<-EOH.gsub(/^\s+/, '')
-#       update-alternatives --install /usr/bin/java java #{java_location} 1061 \
-#       #{slave_lines} && \
-#       update-alternatives --set java #{java_location}
-#     EOH
-#     action :nothing
-#   end
-#
-# end
-
 bash 'update-java-alternatives' do
   java_home = node['rackspace_java']['java_home']
   java_location = File.join(java_home, 'bin', 'java')

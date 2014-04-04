@@ -29,14 +29,19 @@ def parse_app_dir_name(url)
   # funky logic to parse oracle's non-standard naming convention
   # for jdk1.6
   if file_name =~ /^(jre|jdk).*$/
-    major_num = file_name.scan(/\d/)[0] # rubocop: disable UselessAssignment
-    update_num = file_name.scan(/\d+/)[1] # rubocop: disable UselessAssignment
+    major_num = file_name.scan(/\d/)[0]
+    update_token = file_name.scan(/u(\d+)/)[0]
+    update_num = update_token ? update_token[0] : '0'
     # pad a single digit number with a zero
     if update_num.length < 2
       update_num = '0' + update_num
     end
-    package_name = file_name.scan(/[a-z]+/)[0] # rubocop: disable UselessAssignment
-    app_dir_name = "#{package_name}1.#{major_num}.0_#{update_num}"
+    package_name = file_name.scan(/[a-z]+/)[0]
+    if update_num == '00'
+      app_dir_name = "#{package_name}1.#{major_num}.0"
+    else
+      app_dir_name = "#{package_name}1.#{major_num}.0_#{update_num}"
+    end
   else
     app_dir_name = file_name.split(/(.tgz|.tar.gz|.zip)/)[0]
     app_dir_name = app_dir_name.split('-bin')[0]
@@ -88,14 +93,6 @@ action :install do
   app_root = new_resource.app_home.split('/')[0..-2].join('/')
   app_dir = app_root + '/' + app_dir_name
 
-  # unless new_resource.default
-  #   Chef::Log.debug('processing alternate jdk')
-  #   app_dir = app_dir  + '_alt'
-  #   app_home = new_resource.app_home + '_alt'
-  # else
-  #   app_home = new_resource.app_home
-  # end
-
   if new_resource.default
     app_home = new_resource.app_home
   else
@@ -109,7 +106,7 @@ action :install do
     require 'fileutils'
 
     unless ::File.exists?(app_root)
-      description = 'create dir #{app_root} and change owner to #{new_resource.owner}'
+      description = "create dir #{app_root} and change owner to #{new_resource.owner}"
       converge_by(description) do
         FileUtils.mkdir app_root, mode: new_resource.app_home_mode
         FileUtils.chown new_resource.owner, new_resource.owner, app_root
@@ -187,6 +184,7 @@ action :install do
     converge_by(description) do
       Chef::Log.debug "Adding #{jinfo_file} for debian"
       template jinfo_file do
+        cookbook 'rackspace_java'
         source 'oracle.jinfo.erb'
         variables(
           priority: new_resource.alternatives_priority,
@@ -226,14 +224,6 @@ action :remove do
   app_dir_name, tarball_name = parse_app_dir_name(new_resource.url)
   app_root = new_resource.app_home.split('/')[0..-2].join('/')
   app_dir = app_root + '/' + app_dir_name
-
-  # unless new_resource.default
-  #   Chef::Log.debug('processing alternate jdk')
-  #   app_dir = app_dir + '_alt'
-  #   app_home = new_resource.app_home + '_alt'
-  # else
-  #   app_home = new_resource.app_home
-  # end
 
   if new_resource.default
     app_home = new_resource.app_home

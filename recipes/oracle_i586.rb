@@ -29,7 +29,7 @@ end
 
 java_home = node['rackspace_java']['java_home']
 
-case node['rackspace_java']['jdk_version']
+case node['rackspace_java']['jdk_version'].to_s
 when '6'
   tarball_url = node['rackspace_java']['jdk']['6']['i586']['url']
   tarball_checksum = node['rackspace_java']['jdk']['6']['i586']['checksum']
@@ -49,9 +49,14 @@ end
 
 rackspace_java_ark 'jdk-alt' do
   url tarball_url
+  default node['rackspace_java']['set_default']
   checksum tarball_checksum
   app_home java_home
   bin_cmds bin_cmds
   action :install
   default false
+end
+
+if node['rackspace_java']['set_default'] && platform_family?('debian')
+  include_recipe 'rackspace_java::default_java_symlink'
 end

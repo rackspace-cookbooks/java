@@ -24,7 +24,7 @@ module Opscode
     def initialize(node)
       @node = node.to_hash
       @java_home = @node['rackspace_java']['java_home'] || '/usr/lib/jvm/default-java'
-      @jdk_version = @node['rackspace_java']['jdk_version'] || '7'
+      @jdk_version = @node['rackspace_java']['jdk_version'] || '6'
     end
 
     def java_location

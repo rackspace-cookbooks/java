@@ -37,24 +37,11 @@ node['rackspace_java']['openjdk_packages'].each do |pkg|
   package pkg
 end
 
-# if platform_family?('debian', 'rhel')
-#   rackspace_java_alternatives 'set-java-alternatives' do
-#     java_location jdk.java_home
-#     priority jdk.alternatives_priority
-#     case node['rackspace_java']['jdk_version']
-#     when '6'
-#       bin_cmds node['rackspace_java']['jdk']['6']['bin_cmds']
-#     when '7'
-#       bin_cmds node['rackspace_java']['jdk']['7']['bin_cmds']
-#     end
-#     action :set
-#   end
-# end
-
 rackspace_java_alternatives 'set-java-alternatives' do
   java_location jdk.java_home
+  default node['rackspace_java']['set_default']
   priority jdk.alternatives_priority
-  case node['rackspace_java']['jdk_version']
+  case node['rackspace_java']['jdk_version'].to_s
   when '6'
     bin_cmds node['rackspace_java']['jdk']['6']['bin_cmds']
   when '7'
@@ -62,6 +49,10 @@ rackspace_java_alternatives 'set-java-alternatives' do
   end
   action :set
   only_if { platform_family?('debian', 'rhel') }
+end
+
+if node['rackspace_java']['set_default'] && platform_family?('debian')
+  include_recipe 'rackspace_java::default_java_symlink'
 end
 
 # We must include this recipe AFTER updating the alternatives or else JAVA_HOME

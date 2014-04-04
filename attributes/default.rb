@@ -18,13 +18,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Supported options are 'openjdk', 'oracle', 'oracele_rpm' or 'oracle_i586'
+# Supported options are 'openjdk 'oracle 'oracele_rpm' or 'oracle_i586'
 default['rackspace_java']['install_flavor'] = 'openjdk'
 
 # default jdk attributes
 default['rackspace_java']['jdk_version'] = '6'
 default['rackspace_java']['arch'] = kernel['machine'] =~ /x86_64/ ? 'x86_64' : 'i586'
 default['rackspace_java']['openjdk_packages'] = %w['openjdk-6-jdk' 'openjdk-6-jre-headless' ]
+default['rackspace_java']['set_default'] = true
 
 case node['rackspace_java']['install_flavor']
 when 'oracle_rpm'
@@ -36,17 +37,17 @@ end
 default['rackspace_java']['oracle']['accept_oracle_download_terms'] = false
 
 # jdk6 attributes
-default['rackspace_java']['jdk']['6']['bin_cmds'] = %W[ 'appletviewer', 'apt', 'ControlPanel', 'extcheck', 'HtmlConverter', 'idlj', 'jar', 'jarsigner',
-                                                        'java', 'javac', 'javadoc', 'javah', 'javap', 'javaws', 'jconsole', 'jcontrol', 'jdb', 'jhat',
-                                                        'jinfo', 'jmap', 'jps', 'jrunscript', 'jsadebugd', 'jstack', 'jstat', 'jstatd', 'jvisualvm',
-                                                        'keytool', 'native2ascii', 'orbd', 'pack200', 'policytool', 'rmic', 'rmid', 'rmiregistry',
-                                                        'schemagen', 'serialver', 'servertool', 'tnameserv', 'unpack200', 'wsgen', 'wsimport', 'xjc' ]
+default['rackspace_java']['jdk']['6']['bin_cmds'] = %w( appletviewer apt ControlPanel extcheck HtmlConverter idlj jar jarsigner
+                                                        java javac javadoc javah javap javaws jconsole jcontrol jdb jhat
+                                                        jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd jvisualvm
+                                                        keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry
+                                                        schemagen serialver servertool tnameserv unpack200 wsgen wsimport xjc )
 # jdk7 attributes
-default['rackspace_java']['jdk']['7']['bin_cmds'] = %W[ 'appletviewer', 'apt', 'ControlPanel', 'extcheck', 'idlj', 'jar', 'jarsigner', 'java', 'javac',
-                                                        'javadoc', 'javafxpackager', 'javah', 'javap', 'javaws', 'jcmd', 'jconsole', 'jcontrol', 'jdb',
-                                                        'jhat', 'jinfo', 'jmap', 'jps', 'jrunscript', 'jsadebugd', 'jstack', 'jstat', 'jstatd', 'jvisualvm',
-                                                        'keytool', 'native2ascii', 'orbd', 'pack200', 'policytool', 'rmic', 'rmid', 'rmiregistry',
-                                                        'schemagen', 'serialver', 'servertool', 'tnameserv', 'unpack200', 'wsgen', 'wsimport', 'xjc' ]
+default['rackspace_java']['jdk']['7']['bin_cmds'] = %w( appletviewer ControlPanel apt extcheck idlj jar jarsigner java javac
+                                                        javadoc javafxpackager javah javap javaws jcmd jconsole jcontrol jdb
+                                                        jhat jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd jvisualvm
+                                                        keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry
+                                                        schemagen serialver servertool tnameserv unpack200 wsgen wsimport xjc )
 
 # Oracle doesn't seem to publish SHA256 checksums for Java releases, so we use MD5 instead.
 # Official checksums for the latest release can be found at http://www.oracle.com/technetwork/java/javase/downloads/java-se-binaries-checksum-1956892.html
