@@ -66,10 +66,9 @@ end
 
 def download_direct_from_oracle(tarball_name, new_resource)
   download_path = "#{Chef::Config[:file_cache_path]}/#{tarball_name}"
-  # jdk_id = new_resource.url.scan(/\/([6789]u[0-9][0-9]?-b[0-9][0-9])\//)[0][0] # rubocop: disable UselessAssignment
-  jdk_id = new_resource.url.scan(%r{/([6789]u[0-9][0-9]?-b[0-9][0-9])/})[0][0] # rubocop: disable UselessAssignment
-  cookie = 'oraclelicense=accept-securebackup-cookie'
-  if node['rackspace_java']['oracle']['accept_oracle_download_terms']
+  jdk_id = new_resource.url.scan(/\/([6789]u[0-9][0-9]?-b[0-9][0-9])\//)[0][0]
+  cookie = "oraclelicense=accept-securebackup-cookie"
+  if node['java']['oracle']['accept_oracle_download_terms']
     # install the curl package
     p = package 'curl' do
       action :nothing
